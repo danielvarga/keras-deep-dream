@@ -61,7 +61,7 @@ saved_settings = {
                'continuity': 0.1,
                'dream_l2': 0.02,
                'jitter': 0},
-    'daniel': {'features': {'conv5_1': 0.05},
+    'vgg16_single_neuron': {'features': {'conv5_1': 0.05},
                'continuity': 0.1,
                'dream_l2': 1.0,
                'jitter': 1,
@@ -97,7 +97,6 @@ def deprocess_image(x):
 
 # continuity loss util function
 def continuity_loss(x, img_shape):
-    # TODO The names are bad, reversed, the action is good.
     h, w = img_shape
     assert K.ndim(x) == 4
     a = K.square(x[:, :, :h-1, :w-1] - x[:, :, 1:, :w-1])
@@ -181,8 +180,8 @@ class Evaluator(object):
 
 img = imread(base_image_path)
 
-octave_count = settings['octave_count']
-octave_scale = settings['octave_scale']
+octave_count = settings.get('octave_count', 1)
+octave_scale = settings.get('octave_scale', 1.0)
 octaves = [img]
 for _ in range(1, octave_count):
     octaves.append(scipy.ndimage.zoom(octaves[-1], (1.0/octave_scale, 1.0/octave_scale, 1), order=1))
