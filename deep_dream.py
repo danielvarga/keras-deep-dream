@@ -41,7 +41,7 @@ parser.add_argument('base_image_path', metavar='base', type=str,
 parser.add_argument('result_prefix', metavar='res_prefix', type=str,
                     help='Prefix for the saved results.')
 parser.add_argument('layer', metavar='layer', type=str, nargs='?', default=None,
-                    help='Layer to dream.')
+                    help='Layer used for dreaming.')
 
 args = parser.parse_args()
 base_image_path = args.base_image_path
@@ -82,7 +82,7 @@ if args.layer is not None:
     settings['features'] = { args.layer : 1.0 }
 
 
-# util function to open, resize and format pictures into appropriate tensors
+# util function to format pictures into appropriate tensors
 def preprocess_image(img):
     img = img.transpose((2, 0, 1)).astype('float64')
     img = img[:3, :, :] # getting rid of alpha.

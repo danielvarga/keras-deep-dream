@@ -24,19 +24,23 @@ python deep_dream.py [ vgg16 | vgg19 | resnet50 | inception_v3 ] input.png outpu
 Like in the original example, most of the parameter tuning happens
 in the ```setting``` dict variable in the source code. If the
 optional positional ```layer``` argument is not provided,
-it's taken from ```settings['features']````.
+it's taken from ```settings['features']```.
 
+The optimal parameter settings differ for the different pre-trained networks,
+providing sensible defaults for each of them is on my TODO list.
 
 # Caveat
 
-The algorithm compiles a new Keras model for each image size, and for larger networks like resnet50,
-compilation is very slow with the Theano backend. Does anyone know how to avoid this?
-In Caffe it's just https://github.com/google/deepdream/blame/master/dream.ipynb#L208
+The algorithm compiles a new Keras model for each image size, and for the larger networks (resnet50, inception_v3),
+compilation is very slow with the Theano backend, slower than neural computation on a GPU.
+Does anyone know how to avoid this?
+In Caffe it's just
+https://github.com/google/deepdream/blame/master/dream.ipynb#L208
 
 
 # Backstory
 
-The deep dream algorithm is quite a bit 2015 now, but I always wanted to see it running on residual networks,
+The deep dream algorithm is quite 2015 now, but I always wanted to see it running on residual networks,
 and with https://github.com/fchollet/deep-learning-models, I've grabbed the opportunity.
 
 Porting https://github.com/fchollet/keras/blob/master/examples/deep_dream.py
@@ -46,6 +50,6 @@ of the original deep dream algorithm, which goes through iterative re-scaling
 of the image, and it helps tremendously large-scale dreamed objects to appear.
 So I've implemented octaves, hoping that it would make deep dreaming on resnets more interesting.
 Unfortunately, it did not help much. But this is the first full deep dream
-implementation on Keras that I'm aware of, so at least that's something.
+implementation on Keras that I'm aware of, so that's something at least.
 I haven't yet given up on using deep dream to help understand resnets better,
 stay tuned, or even better, help me out.
